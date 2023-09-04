@@ -1,0 +1,10 @@
+﻿{
+  "name": "GooderRecycling",
+  "description": "Better than your moms recycling.",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/humansandbag/Valheim-GooderRecycling",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2105",
+    "ValheimModding-Jotunn-2.12.7"
+  ]
+}

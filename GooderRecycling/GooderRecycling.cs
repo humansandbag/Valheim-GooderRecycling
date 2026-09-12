@@ -21,7 +21,7 @@ namespace GooderRecycling
     {
         public const string PluginGUID = "MainStreetGaming.GooderRecycling";
         public const string PluginName = "GooderRecycling";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.0.2";
 
         public static ConfigEntry<bool> _enableDebug;
         public static ConfigEntry<KeyCode> recycleHotKey;
@@ -225,11 +225,11 @@ namespace GooderRecycling
                                     clonedItemData.m_variant =
                                         requirement.m_resItem.m_itemData.m_variant;
 
-                                    // Upgrader-only resources (Protection Idol, etc.) aren't part of the base
-                                    // craft, but GetAmount(1) still returns m_amount for them in 1.0 — exclude
-                                    // them explicitly at the base quality level.
+                                    // Upgrader-only resources (Protection/Battle Idols) are never spent on the
+                                    // base craft or on a bench upgrade. They're consumed at the Forge of
+                                    // Potential to force an item past its level cap. Never refund them.
                                     int itemCountToRecycle =
-                                        (quality <= 1 && requirement.m_upgraderResource)
+                                        requirement.m_upgraderResource
                                             ? 0
                                             : requirement.GetAmount(quality);
 

@@ -21,7 +21,7 @@ namespace GooderRecycling
     {
         public const string PluginGUID = "MainStreetGaming.GooderRecycling";
         public const string PluginName = "GooderRecycling";
-        public const string PluginVersion = "1.0.2";
+        public const string PluginVersion = "1.0.3";
 
         public static ConfigEntry<bool> _enableDebug;
         public static ConfigEntry<KeyCode> recycleHotKey;
@@ -224,6 +224,17 @@ namespace GooderRecycling
 
                                     clonedItemData.m_variant =
                                         requirement.m_resItem.m_itemData.m_variant;
+
+                                    // ItemData cloned straight off an ObjectDB prefab has a null
+                                    // m_dropPrefab. An item added to the inventory that way blows
+                                    // up in ItemDrop.DropItem ("The Object you want to instantiate
+                                    // is null") when the player drops it out of the inventory, and
+                                    // the stack is destroyed. Stamp the prefab onto the clone so
+                                    // recycled resources behave like normal items.
+                                    clonedItemData.m_dropPrefab =
+                                        matchingItemDrop.m_itemData.m_dropPrefab != null
+                                            ? matchingItemDrop.m_itemData.m_dropPrefab
+                                            : matchingItem;
 
                                     // Upgrader-only resources (Protection/Battle Idols) are never spent on the
                                     // base craft or on a bench upgrade. They're consumed at the Forge of
